@@ -3,7 +3,7 @@
 Проведем тест для следующих реализаций решения задачи:
 
 1. **С помощью методов vector**
->Сперва сортируем массив методом **sort**, после удаляем повторяющиеся элементы методом **unique** и убираем хвост методом **erase**, так как unique не изменяет количество элементов в vector.
+>Сперва сортируем массив методом **sort**, после удаляем повторяющиеся элементы методом **unique** и убираем хвост методом **erase**, так как **unique** не изменяет количество элементов в **vector**.
 >
 >Сложность такого алгоритма будет O(N log N)
 ```c++
@@ -14,15 +14,21 @@
 > Поиск и вставка элементов в set O(log N), а значит сложность алгоритма будет  O (N log N)
 ```c++
     std::set<int> temp_set;
+
     for (int num: src_arr) {
-        temp_set.insert(num);
+        if (temp_set.find(num) != temp_set.end())
+            temp_set.insert(num);
     }
 ```
 3. **С помощью вспомогательного контейнера unordered_set**
 > Затестим еще один контейнер **unordered_set**. Он гарантирует поиск и вставку элементов за O(1), а значит сложность алгоритма должна получится O(N)
 ```c++
-    std::set<int> temp_set(std::make_move_iterator(src_arr.begin()),
-                           std::make_move_iterator(src_arr.end()));
+    std::unordered_set<int> temp_set;
+
+    for (int num: src_arr) {
+        if (temp_set.find(num) != temp_set.end())
+            temp_set.insert(num);
+    }
 ```
 
 ## Как запустить тестер?
