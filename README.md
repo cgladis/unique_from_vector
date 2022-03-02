@@ -11,14 +11,16 @@
 ```
 2. **С помощью вспомогательного контейнера set** (перебором элементов и вставкой их методом insert)
 ```c++
-   std::sort(arr.begin(), arr.end());
-   arr.erase(std::unique(arr.begin(), arr.end()), arr.end());
+    std::set<int> temp_set;
+    for (int num: src_arr) {
+        temp_set.insert(num);
+    }
 ```
 3. **С помощью вспомогательного контейнера set** (c помощью make_move_iterator)
 Решил затестить этот метод, так как есть предположение, что он может быть производительнее insert.
 ```c++
     std::set<int> temp_set(std::make_move_iterator(src_arr.begin()),
-std::make_move_iterator(src_arr.end()));
+                           std::make_move_iterator(src_arr.end()));
 ```
 
 ## Как запустить тестер?
