@@ -3,6 +3,7 @@
 #include <vector>
 #include <set>
 #include <random>
+#include <unordered_set>
 
 #define C_WHITE "\033[0m"
 #define C_BLUE "\033[34m"
@@ -24,16 +25,7 @@ std::vector<int> create_arr(size_t n, int range)
     return arr;
 }
 
-void unique_by_set_by_move_iterator(const std::vector<int>& src_arr){
-
-    std::set<int> temp_set(std::make_move_iterator(src_arr.begin()),
-                           std::make_move_iterator(src_arr.end()));
-
-//    return {std::make_move_iterator(temp_set.begin()),std::make_move_iterator(temp_set.end())};
-
-}
-
-void unique_by_set_by_for(const std::vector<int>& src_arr){
+void unique_by_set(const std::vector<int>& src_arr){
 
     std::set<int> temp_set;
     for (int num: src_arr) {
@@ -51,6 +43,16 @@ void unique_by_sort(const std::vector<int>& src_arr){
 //    return {std::make_move_iterator(arr.begin()),std::make_move_iterator(arr.end())};
 }
 
+void unique_by_unordered_set(const std::vector<int>& src_arr){
+
+    std::unordered_set<int> temp_set;
+
+    for (int num: src_arr) {
+        if (temp_set.find(num) != temp_set.end())
+            temp_set.insert(num);
+    }
+}
+
 auto decorator(const std::function <void (std::vector<int>)>& func){
 
     return [func](std::vector<int> value)
@@ -65,9 +67,9 @@ auto decorator(const std::function <void (std::vector<int>)>& func){
 
 void test (int count, const std::string& fill){
     static int num = 1;
-    static auto fcn_unique1 = decorator(unique_by_set_by_move_iterator);
-    static auto fcn_unique2 = decorator(unique_by_set_by_for);
-    static auto fcn_unique3 = decorator(unique_by_sort);
+    static auto fcn_unique1 = decorator(unique_by_set);
+    static auto fcn_unique2 = decorator(unique_by_sort);
+    static auto fcn_unique3 = decorator(unique_by_unordered_set);
 
     std::vector<int> src_arr;
     int range = 1;
@@ -79,11 +81,11 @@ void test (int count, const std::string& fill){
     std::cout << C_MAGENTA << "Количество элементов: " << C_YELLOW << count << C_WHITE << std::endl;
     std::cout << C_MAGENTA << "Количество повторяющихся элементов: " << C_YELLOW << fill << C_WHITE << std::endl;
 
-    std::cout << "set через make_move_iterator:";
-    fcn_unique1(src_arr);
-    std::cout << "set через insert:            ";
-    fcn_unique2(src_arr);
     std::cout << "через методы vector:         ";
+    fcn_unique2(src_arr);
+    std::cout << "set через set:               ";
+    fcn_unique1(src_arr);
+    std::cout << "через unordered_set:         ";
     fcn_unique3(src_arr);
     std::cout << std::endl;
 
@@ -92,6 +94,7 @@ void test (int count, const std::string& fill){
 
 
 int main() {
+
     test(100000, "минимальное");
     test(100000, "среднее");
     test(100000, "100%");
