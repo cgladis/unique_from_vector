@@ -29,7 +29,8 @@ void unique_by_set(const std::vector<int>& src_arr){
 
     std::set<int> temp_set;
     for (int num: src_arr) {
-        temp_set.insert(num);
+        if (temp_set.find(num) != temp_set.end())
+            temp_set.insert(num);
     }
 //    return {std::make_move_iterator(temp_set.begin()),std::make_move_iterator(temp_set.end())};
 }
